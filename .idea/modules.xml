@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/smena-ts-app.iml" filepath="$PROJECT_DIR$/.idea/smena-ts-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ts-register-login-app.iml" filepath="$PROJECT_DIR$/.idea/ts-register-login-app.iml" />
     </modules>
   </component>
 </project>
