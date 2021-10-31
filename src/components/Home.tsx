@@ -1,4 +1,4 @@
-import {Button, Card, Space} from 'antd'
+import {Button, Card} from 'antd'
 import {observer} from 'mobx-react-lite'
 import React from 'react'
 import {Redirect} from 'react-router-dom'
