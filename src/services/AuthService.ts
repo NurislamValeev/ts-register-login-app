@@ -1,18 +1,21 @@
 import $api from "../http"
 import {AxiosResponse} from "axios"
 
-interface AuthResponse {
+interface LoginResponse {
   token: string
   error: string | null
-  message?: string
+}
+
+interface RegisterResponse {
+  message: string
 }
 
 export default class AuthService {
-  static async login(username: string, password: string): Promise<AxiosResponse<AuthResponse>> {
-    return $api.post<AuthResponse>('/login', {username, password})
+  static async login(username: string, password: string): Promise<AxiosResponse<LoginResponse>> {
+    return $api.post<LoginResponse>('/login', {username, password})
   }
 
-  static async register(username: string, password: string): Promise<AxiosResponse<AuthResponse>> {
-    return $api.post<AuthResponse>('/register', {username, password})
+  static async register(username: string, password: string): Promise<AxiosResponse<RegisterResponse>> {
+    return $api.post<RegisterResponse>('/register', {username, password})
   }
 }

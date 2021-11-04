@@ -5,9 +5,9 @@ import {AxiosError} from "axios"
 import {History} from "history"
 
 export default class Store {
-  user = {} as IUser
-  isAuth = false
-  isLoading = false
+  user: Partial<IUser> = {}
+  isAuth: boolean = false
+  isLoading: boolean = false
   error: null | string = null
 
   constructor() {
@@ -34,52 +34,49 @@ export default class Store {
     return something.isAxiosError === true
   }
 
-  async fetchUserData() {
+  fetchUserData() {
     this.setLoading(true)
-    try {
-      const response = await UserService.fetchUser()
-      this.setUser(response.data)
-    } catch (err) {
-      if (this.isAxiosError(err)) {
-        this.setError(err.response?.data?.error)
-      }
-    } finally {
-      this.setLoading(false)
-    }
+    return UserService.fetchUser()
+      .then(({data}) => this.setUser(data))
+      .catch(err => {
+        if (this.isAxiosError(err)) {
+          this.setError(err.response?.data?.error)
+        }
+      })
+      .finally(() => this.setLoading(false))
   }
 
-  async login(username: string, password: string, history: History) {
-    try {
-      const response = await AuthService.login(username, password)
-      localStorage.setItem('token', response.data.token)
-      this.setAuth(true)
-      this.setError(null)
-      history.push("/")
-    } catch (err) {
-      if (this.isAxiosError(err)) {
-        this.setError(err.response?.data?.error)
-      }
-    }
+  login(username: string, password: string, history: History) {
+   return AuthService.login(username, password)
+      .then(res => {
+        localStorage.setItem('token', res.data.token)
+        this.setAuth(true)
+        history.push("/")
+      })
+      .catch(err => {
+        if (this.isAxiosError(err)) {
+          this.setError(err.response?.data?.error)
+        }
+      })
   }
 
-  async register(username: string, password: string, history: History) {
-    try {
-      await AuthService.register(username, password)
-      this.setAuth(true)
-      this.setError(null)
-      history.push("/login")
-    } catch (err) {
-      if (this.isAxiosError(err)) {
-        this.setError(err.response?.data?.error)
-      }
-    }
+  register(username: string, password: string, history: History) {
+   return AuthService.register(username, password)
+      .then(() => {
+        this.setAuth(true)
+        history.push("/login")
+      })
+      .catch(err => {
+        if (this.isAxiosError(err)) {
+          this.setError(err.response?.data?.error)
+        }
+      })
   }
 
-  async logout() {
+  logout() {
     try {
       localStorage.removeItem('token')
       this.setAuth(false)
-      this.setError(null)
     } catch (err) {
       if (this.isAxiosError(err)) {
         this.setError(err.response?.data?.error)

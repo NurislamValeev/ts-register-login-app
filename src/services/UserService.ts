@@ -5,7 +5,7 @@ export interface IUser {
   id: number
   username: string
   avatar: string
-  about: null
+  about: string | null
   message?: string
 }
 

@@ -4,7 +4,7 @@ import {Link, useHistory} from "react-router-dom"
 import {Context} from "../index"
 import {observer} from "mobx-react-lite"
 
-const RegisterForm = () => {
+const RegisterForm: React.FC = () => {
   const history = useHistory()
   const [username, setUsername] = React.useState<string>('')
   const [password, setPassword] = React.useState<string>('')

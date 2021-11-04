@@ -7,7 +7,7 @@ import Spinner from './Spinner'
 
 const {Meta} = Card
 
-const Home = () => {
+const Home: React.FC = () => {
   const {store} = React.useContext(Context)
 
   React.useEffect(() => {
@@ -27,35 +27,32 @@ const Home = () => {
     return <Spinner/>
   }
 
-  if (!store.isAuth) {
+  if (!store.isAuth || !store.user) {
     return (
       <Redirect to="/login"/>
     )
   }
 
   return (
-    store.user ? (
-        <div style={
-          {display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column'}
-        }>
-          <Card
-            hoverable
-            style={{width: 240}}
-            cover={<img alt="avatar" src={store.user.avatar} style={{width: '240px', height: '240px'}}/>}
-            title={`${store.user.id}: ${store.user.username}`}
-          >
-            <Meta title="О себе:" description={store.user.about || "------"}/>
-          </Card>
-            <Button onClick={handleLogout}
-                    danger
-                    type="default"
-                    htmlType="submit"
-                    style={{display: 'block', marginTop: '20px'}}>
-              Logout
-            </Button>
-        </div>
-      )
-      : <Redirect to='login'/>
+    <div style={
+      {display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column'}
+    }>
+      <Card
+        hoverable
+        style={{width: 240}}
+        cover={<img alt="avatar" src={store.user.avatar} style={{width: '240px', height: '240px'}}/>}
+        title={`${store.user.id}: ${store.user.username}`}
+      >
+        <Meta title="О себе:" description={store.user.about || "------"}/>
+      </Card>
+      <Button onClick={handleLogout}
+              danger
+              type="default"
+              htmlType="submit"
+              style={{display: 'block', marginTop: '20px'}}>
+        Logout
+      </Button>
+    </div>
   )
 }
 
